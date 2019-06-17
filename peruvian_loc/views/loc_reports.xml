@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- Registro de Ventas -->
+        <record model="ir.ui.view" id="loc_rv_form">
+            <field name="name">RV Tree</field>
+            <field name="model">registro.ventas</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="account_period" string="Periodo"/>
+                    <field name="id" string="CUO"/>
+                    <field name="date_invoice" string="Fecha de Emisión"/>
+                    <field name="date_due" string="Fecha de Vencimiento"/>
+                    <field name="tipo_cp" string="Tipo"/>
+                    <field name="serie" string="Serie"/>
+                    <field name="number" string="Número"/>
+                    <field name="tipo_doc" string="Tipo"/>
+                    <field name="vat" string="Número"/>
+                    <field name="customer_name" string="Razón Social"/>
+                    <field name="amount_untaxed" string="Base Imponible"/>
+                    <field name="exempted" string="Exonerada"/>
+                    <field name="no_vat" string="Inafecta"/>
+                    <field name="isc" string="ISC"/>
+                    <field name="amount_tax" string="IGV"/>
+                    <field name="others" string="Otros Tributos"/>
+                    <field name="amount_total" string="Importe Total"/>
+                    <field name="currency_name" string="Moneda"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="peruvian_loc.rv_search">
+            <field name="name">registro.ventas.search</field>
+            <field name="model">registro.ventas</field>
+            <field name="arch" type="xml">
+                <search string="Búsqueda Registro de Ventas">
+                    <filter name="periodo_anterior" string="Periodo Anterior" 
+                            domain="[('account_period','=',(context_today()-relativedelta(months=1)).strftime('%%Y%%m00'))]"/>
+                    <filter name="periodo_actual" string="Periodo Actual" 
+                            domain="[('account_period','=',context_today().strftime('%%Y%%m00'))]"/>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="loc_action_rv">
+            <field name="name">Registro de Ventas</field>
+            <field name="res_model">registro.ventas</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="Formato 14.1: Registro de Ventas" id="loc_menu_2_rv" parent="peruvian_loc.menu_1"
+                  action="loc_action_rv" sequence="20"/>
+
+    </data>
+
+    <!-- Texto PLE -->
+    <report id="report_registro_ventas_ple"
+            string="Texto PLE"
+            model="registro.ventas"
+            report_type="qweb-text"
+            name="peruvian_loc.report_registro_ventas_ple_template"
+            file="peruvian_loc.report_registro_ventas_ple_template"
+            menu="True"/>
+    
+    <report id="report_registro_ventas_ple_html"
+            string="Texto PLE HTML"
+            model="registro.ventas"
+            report_type="qweb-html"
+            name="peruvian_loc.report_registro_ventas_ple_template"
+            file="peruvian_loc.report_registro_ventas_ple_template"
+            menu="True"/>
+    
+    <template id="report_registro_ventas_ple_template">
+            <font face="courier new">
+                <div class="page">
+                        
+                    <t t-set= "arch1" t-value="'LE'" />                        
+                    <t t-set= "arch2" t-value="res_company.vat" ></t>
+                    <t t-set= "arch3" t-value="docs[0].account_period" ></t>
+                    <t t-set= "arch4" t-value="'140100001111.txt'" ></t>
+                    <t t-set= "filename" t-value="arch1 + arch2 + arch3 + arch4"></t>
+                    <span t-esc="filename"/>                        
+                    <br/>
+                        
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-esc="doc.ple"/><br/>                
+                    </t>
+                    
+                </div>
+            </font>        
+    </template>
+</odoo>

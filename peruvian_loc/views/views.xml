@@ -1,60 +1,65 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="peruvian_loc.list">
-      <field name="name">peruvian_loc list</field>
-      <field name="model">peruvian_loc.peruvian_loc</field>
+
+    <!-- Registro de Compras -->
+    <record model="ir.ui.view" id="peruvian_loc.rc">
+      <field name="name">registro.compras.tree</field>
+      <field name="model">registro.compras</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
+          <field name="account_period" string="Periodo"/>
+          <field name="cuo" string="CUO"/>
+          <field name="date_invoice" string="Fecha de Emisión"/>
+          <field name="date_due" string="Fecha de Vencimiento"/>
+          <field name="tipo_cp" string="Tipo"/>
+          <field name="serie" string="Serie"/>
+          <field name="number" string="Número"/>
+          <field name="tipo_doc" string="Tipo"/>
+          <!-- field name="tipo_persona"/-->
+          <field name="vat" string="Número"/>
+          <field name="vendor_display_name" string="Razón Social"/>
+          <field name="amount_untaxed" string="Base Imponible"/>
+          <field name="exempted" string="Exonerada"/>
+          <field name="no_vat" string="Inafecta"/>
+          <field name="isc" string="ISC"/>
+          <field name="amount_tax" string="IGV"/>
+          <field name="others" string="Otros Tributos"/>
+          <field name="amount_total" string="Importe Total"/>            
+          <field name="currency_name" string="Moneda"/>            
         </tree>
       </field>
     </record>
-    -->
 
+    <record model="ir.ui.view" id="peruvian_loc.rc_search">
+        <field name="name">registro.compras.search</field>
+        <field name="model">registro.compras</field>
+        <field name="arch" type="xml">
+            <search string="Búsqueda Registro de Compras">
+                <filter name="periodo_anterior" string="Periodo Anterior" 
+                        domain="[('account_period','=',(context_today()-relativedelta(months=1)).strftime('%%Y%%m00'))]"/>
+                <filter name="periodo_actual" string="Periodo Actual" 
+                        domain="[('account_period','=',context_today().strftime('%%Y%%m00'))]"/>
+            </search>
+        </field>
+    </record>
+      
+      
     <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="peruvian_loc.action_window">
-      <field name="name">peruvian_loc window</field>
-      <field name="res_model">peruvian_loc.peruvian_loc</field>
+    <record model="ir.actions.act_window" id="peruvian_loc.action_rc">
+      <field name="name">Registro de Compras</field>
+      <field name="res_model">registro.compras</field>
       <field name="view_mode">tree,form</field>
-    </record>
-    -->
-
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="peruvian_loc.action_server">
-      <field name="name">peruvian_loc server</field>
-      <field name="model_id" ref="model_peruvian_loc_peruvian_loc"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
-    -->
+    </record>      
 
     <!-- Top menu item -->
-    <!--
-    <menuitem name="peruvian_loc" id="peruvian_loc.menu_root"/>
-    -->
+    <menuitem name="Localizaciones" id="peruvian_loc.menu_root"/>
+    
     <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="peruvian_loc.menu_1" parent="peruvian_loc.menu_root"/>
-    <menuitem name="Menu 2" id="peruvian_loc.menu_2" parent="peruvian_loc.menu_root"/>
-    -->
+    <menuitem name="Reportes" id="peruvian_loc.menu_1" parent="peruvian_loc.menu_root"/>
+
     <!-- actions -->
-    <!--
-    <menuitem name="List" id="peruvian_loc.menu_1_list" parent="peruvian_loc.menu_1"
-              action="peruvian_loc.action_window"/>
-    <menuitem name="Server to list" id="peruvian_loc" parent="peruvian_loc.menu_2"
-              action="peruvian_loc.action_server"/>
-    -->
+    <menuitem name="Formato 8.1: Registro de Compras" id="peruvian_loc.menu_1_rc" parent="peruvian_loc.menu_1"
+              action="peruvian_loc.action_rc" sequence="10"/>
+
   </data>
 </odoo>

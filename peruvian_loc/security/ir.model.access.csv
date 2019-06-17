@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_peruvian_loc_peruvian_loc,peruvian_loc.peruvian_loc,model_peruvian_loc_peruvian_loc,,1,0,0,0
+access_registro_ventas,access_registro_ventas,model_registro_ventas,base.group_erp_manager,1,0,0,0

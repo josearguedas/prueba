@@ -1,0 +1,116 @@
+<odoo>
+    <data>
+
+        <!-- Reporte PDF -->
+        <!--        
+        <report id="report_registro_compras" 
+         string="Reporte PDF"
+         model="registro.compras"
+         report_type="qweb-pdf"
+         name="locas.report_registro_compras_template"
+         file="locas.report_registro_compras_template"
+         menu="True"
+        />
+        
+        <template id="report_registro_compras_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h1>FORMATO 8.1: REGISTRO DE COMPRAS</h1>
+                        <p>Periodo: </p>
+                        <p>RUC: </p>
+                        <p>Apellidos y Nombres / Denominación o Razón Social: </p>
+
+                        <table>
+                           <tr>
+                               <th>CUO</th>
+                               <th>Fecha de Emisión</th>
+                               <th>Fecha de Vencimiento</th>
+                               <th>Tipo</th>
+                               <th>Serie</th>
+                               <th>Número</th>
+                               <th>Tipo</th>
+                               <th>Número</th>
+                               <th>Razón Social</th>
+                               <th>Base Imponible</th>
+                               <th>Exonerada</th>
+                               <th>Inafecta</th>
+                               <th>ISC</th>
+                               <th>IGV</th>
+                               <th>Otros Tributos</th>
+                               <th>Importe Total</th>
+                           </tr>
+                           <tr t-foreach="docs" t-as="doc">
+                               <td><span t-field="doc.id"/></td>
+                               <td><span t-field="doc.date_invoice"/></td>
+                               <td><span t-field="doc.date_due"/></td>
+                               <td><span t-field="doc.tipo_cp"/></td>
+                               <td><span t-field="doc.serie"/></td>
+                               <td><span t-field="doc.number"/></td>
+                               <td><span t-field="doc.tipo_doc"/></td>
+                               <td><span t-field="doc.vat"/></td>
+                               <td><span t-field="doc.vendor_display_name"/></td>
+                               <td><span t-field="doc.amount_untaxed"/></td>
+                               <td><span t-field="doc.amount_tax"/></td>
+                               <td><span t-field="doc.exempted"/></td>
+                               <td><span t-field="doc.no_vat"/></td>
+                               <td><span t-field="doc.isc"/></td>
+                               <td><span t-field="doc.amount_tax"/></td>
+                               <td><span t-field="doc.others"/></td>
+                               <td><span t-field="doc.amount_total"/></td>                              
+                           </tr>
+                        </table>                        
+                        
+                    </div>
+                </t>
+            </t>    
+        </template>        
+        -->
+        
+        <!-- Texto PLE -->
+        <report id="report_registro_compras_ple" 
+         string="Texto PLE"
+         model="registro.compras"
+         report_type="qweb-text"
+         name="peruvian_loc.report_registro_compras_ple_template"
+         file="peruvian_loc.report_registro_compras_ple_template"
+         menu="True"/>
+        
+        <template id="report_registro_compras_ple_template">
+            <t t-foreach="docs" t-as="doc">
+                <t t-esc="doc.texto"/>                            
+            </t>
+        </template>
+
+        <report id="report_registro_compras_ple_html"
+                string="Texto PLE HTML"
+                model="registro.compras"
+                report_type="qweb-html"
+                name="peruvian_loc.report_registro_compras_ple_template"
+                file="peruvian_loc.report_registro_compras_ple_template"
+                menu="True"/>
+    
+        <template id="report_registro_compras_ple_template">
+            
+                <font face="courier new">
+                    <div class="page">
+                        
+                        <t t-set= "arch1" t-value="'LE'" />                        
+                        <t t-set= "arch2" t-value="res_company.vat" ></t>
+                        <t t-set= "arch3" t-value="docs[0].account_period" ></t>
+                        <t t-set= "arch4" t-value="'080100001111.txt'" ></t>
+                        <t t-set= "filename" t-value="arch1 + arch2 + arch3 + arch4"></t>
+                        <span t-esc="filename"/>                        
+                        <br/>
+                        
+                        <t t-foreach="docs" t-as="doc">
+                            <t t-esc="doc.texto"/><br/>                
+                        </t>
+                        
+                    </div>
+                </font>
+            
+        </template>
+        
+    </data>
+</odoo>
